@@ -13,9 +13,9 @@ Our dataset is on the Stats of NBA Championship games.
 
 1. Does a higher amount of turnovers lead to a lesser amount of points scored?
 2. When a team plays home does it increase their field goal percentage?
-3.What are the percentages of games reaching overtime(exceeding the 240 minutes)?
-4.The percent of finals that reached past games 4, 5, 6?
- And more...
+3. What are the percentages of games reaching overtime(exceeding the 240 minutes)?
+4. The percent of finals that reached past games 4, 5, 6?
+And more...
 
 ## Section 3. Data
 
