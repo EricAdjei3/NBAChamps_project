@@ -7,12 +7,16 @@ output: html_notebook
 
 ## Section 1. Introduction
 
-Include a brief **introduction or motivation** here
+Our dataset is on the Stats of NBA Championship games.
 
 ## Section 2. Data Analysis Plan
 
-List any **initial questions** you plan to explore in this project. 
+1. Does a higher amount of turnovers lead to a lesser amount of points scored?
+2. When a team plays home does it increase their field goal percentage?
+3.What are the percentages of games reaching overtime(exceeding the 240 minutes)?
+4.The percent of finals that reached past games 4, 5, 6?
+ And more...
 
 ## Section 3. Data
 
-Include a brief **description of your dataset** (source, available attributes, format, etc.)
+The data sets starts from 1980 - 2018. It has teams that were in the nba finals. The number of points, shots made, free throws and all the others stuff a regular stat sheet would have.
