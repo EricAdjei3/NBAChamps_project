@@ -1,13 +1,212 @@
 ---
-title: "Final Report for Intro to Data Science"
+title: "1980 - 2018 NBA Championship Stats"
 output: html_notebook
 ---
 
-This is where the final project report write-up goes. 
+## Team Members
+
+**Eric Adjei** [ The leader](eadjei1732@floridapoly.edu)
+
+**Demetrius Fields** [ The co-leader](dfields1684@floridapoly.edu)
 
 
-Before you submit, make sure everything runs as expected.
+# Introduction
+This dataset has the stats of every NBA team that was in the Championship from 1980 - 2018 and won furing that year. It has the Year, Team, Game number, Number of wins, Number of Home Games, Minutes Played, Field Goals, Field Goals Attempted, etc ... The NBA championship is a series of 7 games. First team to get 4 wins in the series wins the championship.
 
-You can add sections as you see fit. Make sure you have a section called "Introduction" at the beginning and a section called "Conclusion" at the end. The rest is up to you!
+- How a team did during a series ?
+- The Stats for some Teams ?
+- What stats make the best team?
 
-_Make use of your knowledge of Markdown to appropriately typeset this report!_
+Our project investigates the stats of NBA championship teams. We will be using the data available at: <https://github.com/reisanar/datasets/blob/master/NBAchampionsdata.csv> 
+
+
+# Prerequisites
+
+Loading the required packages
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+
+
+# Data Description
+
+```{r}
+StatsS <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/NBAchampionsdata.csv")
+head(StatsS)
+```
+
+This is a function the prints the stats of teams
+```{r}
+Team_Stats <- function(team) {StatsS %>% 
+  filter(Team == team)
+}
+```
+
+This dataset has 220 rows in it.
+```{r}
+nrow(StatsS)
+```
+
+The dataset also has 24 columns in it.
+```{r}
+ncol(StatsS)
+```
+
+
+# Data Exploration
+
+We used the function we created to explore every team that won the championship from 1980-2018 stats.
+
+## Lakers
+```{r}
+Team_Stats("Lakers")
+```
+
+## Celtics 
+```{r}
+Team_Stats("Celtics")
+```
+
+## Sixers
+```{r}
+Team_Stats("Sixers")
+```
+
+## Pistons
+```{r}
+Team_Stats("Pistons")
+```
+
+## Bulls
+```{r}
+Team_Stats("Bulls")
+```
+
+## Rockets
+```{r}
+Team_Stats("Rockets")
+```
+
+## Spurs
+```{r}
+Team_Stats("Spurs")
+```
+
+## Heat
+```{r}
+Team_Stats("Heat")
+```
+
+## Mavericks
+```{r}
+Team_Stats("Mavericks")
+```
+
+## Warriors
+```{r}
+Team_Stats("Warriors")
+```
+
+## Cavaliers
+```{r}
+Team_Stats("Cavaliers")
+```
+
+
+This is a dataset we made. We just added a new column called total_games. The new column show how many games it took the team to win the championship
+```{r}
+Total_games <- StatsS %>% 
+  group_by(Year, Team) %>% 
+  mutate(total_games = sum(Game))  # If total games equal to 28 then total games are 7, if 21 then 6.
+Total_games
+```
+
+
+
+
+
+# Data Analysis
+
+### What teams won the first game?
+Most NBA teams that won the championship won their first game. Usually the team that wins the first game has the advantage to win the championship. Most of the teams that won their first game play on the court.
+```{r}
+StatsS %>%
+  filter(Win == 1, Game == 1)
+```
+
+
+### What team had the most turnovers? 
+Even though these won the Championship they still had some downs before they won. Some of the downs could be Turnovers.
+A turnover happens when the team in possession of the ball loses the ball. If you have Turnover numbers on your stats, that is not a good look.
+```{r}
+StatsS %>% 
+  filter(TOV == max(TOV)) %>%
+  select(Team, Year, Game, TOV)
+```
+```{r}
+  ggplot(StatsS, aes(Year, TOV)) +
+  geom_col(aes(fill = Team)) +
+  labs(
+    title = "Teams Turnovers"
+  )
+```
+
+
+### What team had the highest field goal percentage? 
+To win you have to have a good field goal percentage. So we looked for the team with the highest percentage. A field goal percentage is determined by the numbers of shots made during the game over the number of shots attempted during the game times one hundred. The more shots you make the higher your percentage.
+```{r}
+ggplot(StatsS, aes(Team, FGP)) +
+  geom_col(aes(fill = Year, label = Year), position = "dodge", stat = "identity") +
+  labs(
+    title = "Teams Field Goal Percentage"
+  )
+```
+```{r}
+StatsS %>% 
+  filter(FGP == max(FGP)) %>%
+  select(Team, Year, Game, FGP)
+```
+
+
+### What team had the most points in a game?
+In the game of basketball, you need points on the board to win the game. So we decided to check out which championship team had the most point in a game. Points are the number one most important stat for a team to win the championship.
+
+```{r}
+StatsS %>% 
+  filter(PTS == max(PTS)) %>%
+  select(Team, Year, Game, PTS)
+```
+
+```{r}
+  ggplot(StatsS, aes(Team, PTS)) +
+  geom_col(aes(fill = Year, label = Year), position = "dodge", stat = "identity") +
+  labs(
+    title = "Teams Points"
+  )
+```
+
+
+
+### What team had the most fouls?
+In war for the NBA championship, stuff could get rough sometimes. Players make illegal contacts with whomever they are guarding and it is considered as a personal foul. Personal fouls could also really cause a team the game especially if it's a close game.
+```{r}
+StatsS %>% 
+  filter(PF == max(PF)) %>%
+  select(Team, Year, Game, PF)
+```
+
+```{r}
+  ggplot(StatsS, aes(Team, PF)) +
+  geom_col(aes(fill = Year, label = Year), position = "dodge", stat = "identity") +
+  labs(
+    title = "Teams Personal Fouls"
+  )
+```
+
+
+# Conclusion
+Following the analysis of the NBA champions data set we were able to help identify what allowed these teams to win as well as how these championship teams performed compared to the others. Using the data set we could identify which teams scored the most points, committed the most turnovers, won their first game, teams with the highest field goal percentage, and the teams that committed the most fouls. Using the data, we were later able to identify the teams that outperformed the others in specific stat categories. Conclusively using this data set we learned how to identify the teams that could perform the best in different statistical categories as well as using our skills in R to find the answers to the data in a better fashion.
+
+
